@@ -8,7 +8,7 @@ import numpy as np
 from PIL import Image
 import tensorflow as tf
 
-# from rpi_deep_pantilt import __path__ as rpi_deep_pantilt_path
+
 from label import create_category_index_from_labelmap
 from visualization import visualize_boxes_and_labels_on_image_array
 

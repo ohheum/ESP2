@@ -93,7 +93,7 @@ def set_servos(pan, tilt):
     signal.signal(signal.SIGINT, signal_handler)
 
     setAngle(0, 90)
-    setAngle(1, 0)
+    setAngle(1, 45)
     pan_angle = 90
     tilt_angle = 45
 
@@ -104,7 +104,6 @@ def set_servos(pan, tilt):
         tilt_angle += tilt_delta
         pan_angle = min(180, max(0, pan_angle))
         tilt_angle = min(120, max(30, tilt_angle))
-        print('{}, {}, {}'.format(pan.value, pan_delta, pan_angle))
 
         # if the pan angle is within the range, pan
         if in_range(pan_angle, SERVO_MIN, SERVO_MAX):
