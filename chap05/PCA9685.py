@@ -82,23 +82,43 @@ class PCA9685:
     pulse = pulse*4096/20000        #PWM frequency is 50HZ,the period is 20000us
     self.setPWM(channel, 0, int(pulse))
 
+
+  def setAngle(self, channel, degree):
+    pulse = degree * 2000 / 180  + 500  # map [0, 180] to [500, 2500]
+    self.setServoPulse(channel, int(pulse))
+
+
+pwm = PCA9685(0x40)
+pwm.setPWMFreq(50)
+pwm.setAngle(0,90)
+pwm.setAngle(1,0)
+
+setAngle = pwm.setAngle
+
+
 if __name__=='__main__':
+  time.sleep(1)
 
-  pwm = PCA9685(0x40, debug=True)
-  pwm.setPWMFreq(50)
-  pwm.setServoPulse(0,1500)
-  pwm.setServoPulse(1,1000)
-
-  try:
-    while True:
-      for i in range(500, 1500, 10):  # 500 ~ 2500 for pan
-        pwm.setServoPulse(1, i)
+  for _ in range(3):
+    for i in range(90, 0, -2):
+        pwm.setAngle(1, i)
+        time.sleep(0.02)
+    for i in range(0, 180, 2):
+        pwm.setAngle(1, i)
+        time.sleep(0.02)
+    for i in range(180, 90, -2):
+        pwm.setAngle(1, i)
         time.sleep(0.02)
 
-      for i in range(500, 2500, 10):
-        pwm.setServoPulse(0, i)
+    for i in range(90, 0, -2):
+        pwm.setAngle(0, i)
+        time.sleep(0.02)
+    for i in range(0, 180, 2):
+        pwm.setAngle(0, i)
+        time.sleep(0.02)
+    for i in range(180, 90, -2):
+        pwm.setAngle(0, i)
         time.sleep(0.02)
 
-  except KeyboardInterrupt:
-    pwm.setServoPulse(0,1500)
-    pwm.setServoPulse(1,1000)
+    pwm.setAngle(0,90)
+    pwm.setAngle(1,90)
